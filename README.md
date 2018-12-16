@@ -45,10 +45,9 @@ Sample output:
 
 ```
 $ python3 inat_observations.py
-...
+id,date,place,species,call_intensity,air_temp_c
 12142872,"2018-05-02","Travis","Blanchard's Cricket Frog","2","27"
 5480218,"2017-03-25","Williamson","Rio Grande Leopard Frog","1","19"
-...
 ```
 
 The above sample only shows two lines of CSV output. The actual output
@@ -87,7 +86,8 @@ Sample output:
 
 ```
 $ python3 inat_id_search.py --project 'Herps of Tex'
-id=411, name="Herps of Texas"
+id,name
+411,"Herps of Texas"
 ```
 
 

@@ -83,9 +83,12 @@ def main():
     logging.debug('args = {}'.format(args))
     logging.debug('name = {}'.format(args.name))
 
+    # print header row
+    print('{},{}'.format('id', 'name'))
+
     # query the IDs and print the results
     for identifier, name in query(op=op, q=args.name):
-        print('id={}, name="{}"'.format(identifier, name))
+        print('{},"{}"'.format(identifier, name))
 
 
 if __name__ == "__main__":

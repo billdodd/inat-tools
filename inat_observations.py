@@ -80,7 +80,11 @@ def hot_fields(fields):
             if field_id == FIELD_CALL_INTENSITY:
                 # .strip() to convert e.g. "C3" to "3"
                 call_intensity = value.strip('\t\n CcIi')
-                logging.debug('ci = {}'.format(call_intensity))
+                if call_intensity not in ['0', '1', '2', '3']:
+                    logging.error('invalid call intensity value ignored: "{}"'
+                                  .format(call_intensity))
+                    call_intensity = ''
+                logging.debug('call intensity = {}'.format(call_intensity))
             elif field_id == FIELD_AIR_TEMP_C:
                 air_temp_c = value
                 logging.debug('air_temp_c = {}'.format(air_temp_c))
@@ -128,7 +132,7 @@ def query(project_id, quality_grade, taxa, places):
         logging.debug('len(results) = {}'.format(len(results)))
         for result in data['results']:
             place = place_ids_to_county(result['place_ids'],
-                                         result['place_guess'])
+                                        result['place_guess'])
             core = (result['id'], result['observed_on'], place,
                     result['taxon']['preferred_common_name'])
             hot = hot_fields(result.get('ofvs'))
@@ -162,6 +166,10 @@ def main():
     taxa = [ID_TAXON_ANURA]
     places = ID_PLACE_CENTRAL_TX
     # places = [ID_PLACE_TRAVIS]
+
+    # print header row
+    print('{},{},{},{},{},{}'.format('id', 'date', 'place', 'species',
+                                     'call_intensity', 'air_temp_c'))
 
     # make the query and output the results as CSV
     for result in query(project_id=project_id, quality_grade='research',
